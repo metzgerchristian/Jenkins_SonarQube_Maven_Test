@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    tools { 
-        maven 'Maven 3.6.3' 
-        jdk '11.0.5' 
+    tools {
+        maven 'Maven 3.6.3'
+        jdk '11.0.5'
     }
     stages {
         stage ('Initialize') {
@@ -10,13 +10,18 @@ pipeline {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
-                ''' 
+                '''
             }
         }
 
         stage ('Build') {
             steps {
-                echo 'This is a minimal pipeline.'
+                sh 'mvn clean install sonar:sonar' 
+            }
+            post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
             }
         }
     }
