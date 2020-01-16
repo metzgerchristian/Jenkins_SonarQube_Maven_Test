@@ -18,10 +18,6 @@ pipeline {
             steps {
                 sh 'mvn clean install sonar:sonar' 
             }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
             }
         }
     }
